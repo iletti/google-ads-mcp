@@ -105,8 +105,10 @@ Dates are YYYY-MM-DD with dashes. Ranges must be finite (both ends), or use a
 predefined range such as LAST_7_DAYS, LAST_30_DAYS, THIS_MONTH.
 
 ### Limits
+- Bound the result size with a LIMIT clause in the query. Page size is fixed by
+  the API at 10,000 rows and cannot be set per request.
 - change_event queries must specify LIMIT <= 10000.
-- Results are paged; pass the returned next_page_token to fetch more.
+- If more rows remain, next_page_token is returned; pass it back as page_token.
 - The account is on the basic API access tier: 15,000 operations/day.
 
 ### Conversion issues
@@ -168,13 +170,6 @@ export function createServer(): McpServer {
           .describe(
             "10-digit customer ID (hyphens are stripped). Defaults to the account this server is configured for.",
           ),
-        page_size: z
-          .number()
-          .int()
-          .min(1)
-          .max(10000)
-          .optional()
-          .describe("Rows per page. Defaults to 250; raise it for bulk exports, lower it to save context."),
         page_token: z
           .string()
           .optional()
@@ -188,9 +183,8 @@ export function createServer(): McpServer {
       },
       annotations: { readOnlyHint: true, idempotentHint: true },
     },
-    async ({ query, customer_id, page_size, page_token, login_customer_id }) => {
+    async ({ query, customer_id, page_token, login_customer_id }) => {
       const result = await search(resolveCustomerId(customer_id), query, {
-        pageSize: page_size ?? 250,
         pageToken: page_token,
         loginCustomerId: login_customer_id,
       });
@@ -533,7 +527,6 @@ export function createServer(): McpServer {
         `SELECT language_constant.id, language_constant.code, ` +
           `language_constant.name, language_constant.targetable ` +
           `FROM language_constant${where} ORDER BY language_constant.name`,
-        { pageSize: 500 },
       );
 
       return json({

@@ -184,11 +184,15 @@ export interface SearchResult {
  * We use `search` rather than `searchStream` deliberately: paging keeps a
  * single response bounded, which matters both for the serverless response size
  * and for the model's context window.
+ *
+ * Note that `pageSize` must NOT be sent: the API rejects it with
+ * PAGE_SIZE_NOT_SUPPORTED and fixes the page at 10,000 rows. Bound results with
+ * a LIMIT clause in the query instead.
  */
 export async function search(
   customerId: string,
   query: string,
-  options: { pageSize?: number; pageToken?: string; loginCustomerId?: string } = {},
+  options: { pageToken?: string; loginCustomerId?: string } = {},
 ): Promise<SearchResult> {
   const cid = normalizeCustomerId(customerId);
   return apiRequest<SearchResult>(`/customers/${cid}/googleAds:search`, {
@@ -196,7 +200,6 @@ export async function search(
     loginCustomerId: options.loginCustomerId,
     body: {
       query,
-      pageSize: options.pageSize,
       pageToken: options.pageToken,
     },
   });
