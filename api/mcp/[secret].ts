@@ -11,7 +11,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 
-import { createServer } from "../_lib/server.ts";
+import { createServer } from "../_lib/server.js";
 
 type VercelRequest = IncomingMessage & {
   query: Record<string, string | string[]>;

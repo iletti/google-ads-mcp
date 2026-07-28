@@ -13,6 +13,10 @@
  */
 
 import { createServer } from "node:http";
+import { register } from "node:module";
+
+// Must be registered before the handler is imported — see ts-resolver.mjs.
+register("./ts-resolver.mjs", import.meta.url);
 
 const PORT = Number(process.env.PORT || 3000);
 const { default: handler } = await import("../api/mcp/[secret].ts");

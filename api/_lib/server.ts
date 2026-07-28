@@ -7,7 +7,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-import { GAQL_RESOURCES } from "./gaql-resources.ts";
+import { GAQL_RESOURCES } from "./gaql-resources.js";
 import {
   API_VERSION,
   GoogleAdsError,
@@ -18,7 +18,7 @@ import {
   search,
   searchGoogleAdsFields,
   suggestGeoTargetConstants,
-} from "./google-ads.ts";
+} from "./google-ads.js";
 
 const DEFAULT_LANGUAGE_ID = process.env.GOOGLE_ADS_DEFAULT_LANGUAGE_ID || "1000";
 const DEFAULT_GEO_TARGET_IDS = (process.env.GOOGLE_ADS_DEFAULT_GEO_TARGETS || "")
