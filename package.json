@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Read-only Google Ads reporting and Keyword Planner MCP server, deployable to Vercel.",
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
