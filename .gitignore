@@ -37,3 +37,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 .nox/
+# Node / Vercel
+node_modules/
+.vercel/
+.env
+.env.local
+package-lock.json

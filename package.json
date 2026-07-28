@@ -1,0 +1,23 @@
+{
+  "name": "google-ads-mcp-vercel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only Google Ads reporting and Keyword Planner MCP server, deployable to Vercel.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "get-refresh-token": "node scripts/get-refresh-token.mjs",
+    "dev": "node --experimental-strip-types scripts/dev-server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

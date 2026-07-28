@@ -1,0 +1,11 @@
+# The upstream Python server is kept in the repo for local/stdio use, but it is
+# not part of the Vercel deployment (google-ads + grpc blow past the function
+# size limit).
+ads_mcp/
+tests/
+noxfile.py
+pyproject.toml
+MANIFEST.in
+Dockerfile
+CONTRIBUTING.md
+.github/

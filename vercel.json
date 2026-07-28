@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/mcp/:secret", "destination": "/api/mcp/:secret" }
+  ],
+  "functions": {
+    "api/mcp/[secret].ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  }
+}
