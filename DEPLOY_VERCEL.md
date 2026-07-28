@@ -85,9 +85,9 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
 | `GOOGLE_ADS_OAUTH_CLIENT_SECRET` | ✓ | OAuth client secret |
 | `GOOGLE_ADS_REFRESH_TOKEN` | ✓ | From step 2 |
 | `GOOGLE_ADS_CUSTOMER_ID` | recommended | `6781051480` — used when a tool call omits `customer_id` |
-| `GOOGLE_ADS_LOGIN_CUSTOMER_ID` | if using an MCC | e.g. `6330844584` |
+| `GOOGLE_ADS_LOGIN_CUSTOMER_ID` | only if needed | The manager account ID, but ONLY when the target account is not directly accessible to the authorized user. Setting it to an MCC the user cannot access causes USER_PERMISSION_DENIED — leave it unset if `list_accessible_customers` already returns the target account. |
 | `GOOGLE_ADS_DEFAULT_GEO_TARGETS` | optional | Comma-separated geo IDs for keyword research, e.g. `2246` (Finland) |
-| `GOOGLE_ADS_DEFAULT_LANGUAGE_ID` | optional | Default `1000` (English). Finnish is `1019` |
+| `GOOGLE_ADS_DEFAULT_LANGUAGE_ID` | optional | Default `1000` (English). Finnish is `1011`, Swedish `1015`. Verify with the `find_language_constants` tool rather than guessing |
 | `GOOGLE_ADS_API_VERSION` | optional | Default `v24` |
 
 **Turn off Deployment Protection** (Project Settings → Deployment Protection →

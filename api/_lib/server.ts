@@ -279,9 +279,10 @@ export function createServer(): McpServer {
         "Keyword Planner UI shows: rounded into buckets, and averaged over the " +
         "last 12 months unless a date range is given.\n\n" +
         "Geo targets and language matter a lot. Use find_geo_targets to look up " +
-        "location IDs and find_language_constants for language IDs. Common IDs: " +
-        "Finland 2246, Sweden 2752, United States 2840, United Kingdom 2826; " +
-        "English 1000, Finnish 1019, Swedish 1015.",
+        "location IDs and find_language_constants for language IDs. Verified " +
+        "IDs: Finland 2246, Sweden 2752, United States 2840, United Kingdom " +
+        "2826; English 1000, Finnish 1011, Swedish 1015, Estonian 1043, " +
+        "German 1001. Do not guess other IDs — look them up.",
       inputSchema: {
         keywords: z
           .array(z.string())
