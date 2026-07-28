@@ -10,13 +10,24 @@
  *
  * The OAuth client must be a "Web application" client with
  * http://localhost:8765/oauth2callback listed as an authorized redirect URI.
+ *
+ * If the client already has a different loopback URI registered, point the
+ * script at it instead of editing the client — Google rejects the whole flow
+ * with redirect_uri_mismatch unless the two match character for character:
+ *
+ *   OAUTH_REDIRECT_URI=http://127.0.0.1:9000/callback node scripts/get-refresh-token.mjs
  */
 
 import { createServer } from "node:http";
 import { randomBytes } from "node:crypto";
 
-const PORT = Number(process.env.OAUTH_PORT || 8765);
-const REDIRECT_URI = `http://localhost:${PORT}/oauth2callback`;
+const REDIRECT_URI =
+  process.env.OAUTH_REDIRECT_URI ||
+  `http://localhost:${Number(process.env.OAUTH_PORT || 8765)}/oauth2callback`;
+
+const redirect = new URL(REDIRECT_URI);
+const PORT = Number(redirect.port || 80);
+const CALLBACK_PATH = redirect.pathname;
 const SCOPE = "https://www.googleapis.com/auth/adwords";
 
 const clientId = process.env.GOOGLE_ADS_OAUTH_CLIENT_ID;
@@ -41,13 +52,18 @@ authUrl.searchParams.set("access_type", "offline");
 authUrl.searchParams.set("prompt", "consent");
 authUrl.searchParams.set("state", state);
 
-console.log("\nOpen this URL in the browser logged in as the Google Ads user:\n");
+console.log(`\nRedirect URI this run will send: ${REDIRECT_URI}`);
+console.log(
+  "It must be listed VERBATIM under \"Authorized redirect URIs\" on the OAuth\n" +
+    "client, or Google returns redirect_uri_mismatch.\n",
+);
+console.log("Open this URL in the browser logged in as the Google Ads user:\n");
 console.log(authUrl.toString());
 console.log("\nWaiting for the redirect back to localhost...\n");
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
-  if (url.pathname !== "/oauth2callback") {
+  if (url.pathname !== CALLBACK_PATH) {
     res.writeHead(404).end();
     return;
   }
